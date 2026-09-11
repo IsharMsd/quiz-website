@@ -3,537 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz Challenge</title>
-
+<title>ECE Intermediate & Tricky Quiz</title>
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    padding: 20px;
-}
-
-.quiz-container {
-    width: 100%;
-    max-width: 600px;
-    background: white;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    color: #555;
-    font-weight: bold;
-}
-
-.timer {
-    background: #f1f3f5;
-    padding: 8px 14px;
-    border-radius: 20px;
-}
-
-.timer.warning {
-    background: #ffdddd;
-    color: #e63946;
-}
-
-.progress {
-    height: 8px;
-    background: #eee;
-    border-radius: 10px;
-    margin-bottom: 25px;
-    overflow: hidden;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #667eea;
-    transition: width 0.3s;
-}
-
-.question {
-    font-size: 22px;
-    font-weight: bold;
-    color: #222;
-    margin-bottom: 20px;
-    line-height: 1.4;
-}
-
-.options {
-    display: grid;
-    gap: 12px;
-}
-
-.option {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 12px;
-    background: white;
-    text-align: left;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.option:hover {
-    border-color: #667eea;
-    background: #f5f6ff;
-}
-
-.option.correct {
-    background: #d8f3dc;
-    border-color: #2a9d8f;
-    color: #1b6e64;
-}
-
-.option.wrong {
-    background: #ffe0e0;
-    border-color: #e63946;
-    color: #b4232c;
-}
-
-.option:disabled {
-    cursor: not-allowed;
-}
-
-.result {
-    display: none;
-    text-align: center;
-}
-
-.result h2 {
-    font-size: 32px;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.score {
-    font-size: 48px;
-    font-weight: bold;
-    color: #667eea;
-    margin: 20px 0;
-}
-
-.restart {
-    border: none;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    padding: 14px 30px;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.restart:hover {
-    opacity: 0.9;
-}
-
-@media (max-width: 500px) {
-    .quiz-container {
-        padding: 20px;
-        border-radius: 16px;
-    }
-
-    h1 {
-        font-size: 25px;
-    }
-
-    .question {
-        font-size: 19px;
-    }
-
-    .option {
-        font-size: 15px;
-        padding: 13px;
-    }
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;min-height:100vh;background:linear-gradient(135deg,#111827,#312e81);display:flex;justify-content:center;align-items:center;padding:16px;color:#111827}
+.card{width:100%;max-width:680px;background:#fff;border-radius:22px;padding:26px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+h1{text-align:center;font-size:25px;margin-bottom:20px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-weight:700;color:#4b5563}
+.timer{background:#eef2ff;color:#4338ca;padding:9px 14px;border-radius:999px;min-width:62px;text-align:center}
+.timer.danger{background:#fee2e2;color:#dc2626}
+.bar{height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-bottom:24px}
+.fill{height:100%;background:#4f46e5;width:0;transition:width .25s}
+.question{font-size:21px;font-weight:700;line-height:1.45;margin-bottom:20px}
+.options{display:grid;gap:12px}
+.option{border:2px solid #e5e7eb;background:#fff;border-radius:14px;padding:15px;text-align:left;font-size:16px;cursor:pointer;transition:.2s}
+.option:hover{border-color:#6366f1;background:#eef2ff}
+.option.selected{border-color:#4f46e5;background:#e0e7ff}
+.option.correct{border-color:#16a34a;background:#dcfce7}
+.option.wrong{border-color:#dc2626;background:#fee2e2}
+.option:disabled{cursor:not-allowed}
+.next{width:100%;margin-top:18px;border:0;border-radius:14px;padding:14px;background:#4f46e5;color:#fff;font-size:16px;font-weight:700;cursor:pointer}
+.next:disabled{opacity:.45;cursor:not-allowed}
+.result{display:none;text-align:center}
+.result h2{font-size:30px;margin-bottom:12px}
+.score{font-size:52px;font-weight:800;color:#4f46e5;margin:18px}
+.restart{border:0;border-radius:14px;padding:14px 26px;background:#4f46e5;color:#fff;font-size:16px;font-weight:700;cursor:pointer}
+.small{text-align:center;color:#6b7280;margin-top:10px;font-size:13px}
+@media(max-width:500px){.card{padding:20px}.question{font-size:18px}.option{font-size:15px;padding:13px}h1{font-size:22px}}
 </style>
 </head>
-
 <body>
-
-<div class="quiz-container">
-
-    <div id="quiz">
-
-        <h1>🧠 Quiz Challenge</h1>
-
-        <div class="top-bar">
-            <span id="questionNumber">Question 1 / 15</span>
-            <span class="timer" id="timer">15s</span>
-        </div>
-
-        <div class="progress">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-
-        <div class="question" id="question"></div>
-
-        <div class="options" id="options"></div>
-
-    </div>
-
-    <div class="result" id="result">
-
-        <h2>🎉 Quiz Completed!</h2>
-
-        <p>Your Final Score</p>
-
-        <div class="score" id="score">0 / 15</div>
-
-        <p id="message"></p>
-
-        <br>
-
-        <button class="restart" onclick="restartQuiz()">
-            🔄 Restart Quiz
-        </button>
-
-    </div>
-
+<div class="card">
+<section id="quiz">
+<h1>ECE Intermediate & Tricky Quiz</h1>
+<div class="top"><span id="counter">Question 1 / 30</span><span class="timer" id="timer">15s</span></div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+<div class="question" id="question"></div>
+<div class="options" id="options"></div>
+<button class="next" id="next" disabled>Next Question →</button>
+<p class="small">Choose one answer. The correct answer is not shown during the quiz.</p>
+</section>
+<section class="result" id="result">
+<h2>Quiz Completed!</h2>
+<p>Your Final Score</p>
+<div class="score" id="score">0 / 30</div>
+<p id="message"></p>
+<br>
+<button class="restart" onclick="restartQuiz()">↻ Restart Quiz</button>
+</section>
 </div>
-
-
 <script>
+const questions = [{"q": "A silicon diode is forward biased beyond its knee voltage. What happens to forward current?", "options": ["It increases rapidly", "It becomes zero", "It remains perfectly constant", "It reverses direction"], "answer": 0}, {"q": "An ideal capacitor connected to a DC source reaches steady state. What is its current?", "options": ["Zero", "Maximum", "Equal to supply current", "Infinite"], "answer": 0}, {"q": "In a common-emitter amplifier, the output voltage is generally:", "options": ["180° out of phase", "In phase", "90° out of phase", "360° out of phase"], "answer": 0}, {"q": "Which gate gives HIGH output only when all inputs are LOW?", "options": ["NOR", "NAND", "XOR", "AND"], "answer": 0}, {"q": "An 8-bit ADC has a 0–5 V range. Approximately what is one LSB?", "options": ["19.53 mV", "39.06 mV", "9.77 mV", "78.13 mV"], "answer": 0}, {"q": "In conventional AM, which carrier parameter is varied?", "options": ["Amplitude", "Frequency", "Phase only", "Propagation speed"], "answer": 0}, {"q": "An unconnected digital input of a microcontroller may produce:", "options": ["A floating logic state", "A permanent short circuit", "Automatic analog conversion", "A guaranteed LOW"], "answer": 0}, {"q": "At series RLC resonance, which statement is correct?", "options": ["Inductive and capacitive reactances cancel", "Resistance becomes zero", "Current becomes zero", "Both reactances become infinite"], "answer": 0}, {"q": "A 4-bit binary counter starts at 0000. After 15 clock pulses, the state is:", "options": ["1111", "0000", "1110", "10000"], "answer": 0}, {"q": "Which sensor detects human motion by sensing changes in infrared radiation?", "options": ["PIR", "LDR", "Ultrasonic", "Thermistor"], "answer": 0}, {"q": "The main function of a Zener diode in a regulator circuit is to:", "options": ["Maintain nearly constant voltage", "Amplify current", "Convert AC to frequency", "Store charge"], "answer": 0}, {"q": "Which transistor terminal controls the current between collector and emitter in a BJT?", "options": ["Base", "Collector", "Emitter", "Substrate"], "answer": 0}, {"q": "If the frequency of an AC signal increases while inductance remains constant, inductive reactance:", "options": ["Increases", "Decreases", "Becomes zero", "Remains unchanged"], "answer": 0}, {"q": "A full-wave rectifier converts:", "options": ["AC to pulsating DC", "DC to AC", "DC to DC only", "AC to AC only"], "answer": 0}, {"q": "Which flip-flop is commonly used to divide frequency by 2 when configured to toggle?", "options": ["T flip-flop", "SR flip-flop", "D latch", "Encoder"], "answer": 0}, {"q": "In a digital system, a multiplexer is used to:", "options": ["Select one input from many", "Store one bit permanently", "Convert analog to digital", "Increase supply voltage"], "answer": 0}, {"q": "Which communication medium generally provides the highest immunity to electromagnetic interference?", "options": ["Optical fiber", "Twisted pair", "Coaxial cable", "Parallel copper wire"], "answer": 0}, {"q": "The bandwidth of an ideal AM signal with a maximum modulating frequency fm is:", "options": ["2fm", "fm", "3fm", "fm/2"], "answer": 0}, {"q": "What happens to the resonant frequency of an LC circuit if capacitance is increased while inductance remains constant?", "options": ["It decreases", "It increases", "It remains unchanged", "It becomes infinite"], "answer": 0}, {"q": "An op-amp has very high open-loop gain. In a negative-feedback amplifier, feedback mainly:", "options": ["Stabilizes and controls the gain", "Makes the gain infinite", "Removes the power supply", "Stops all current"], "answer": 0}, {"q": "Which device converts a physical quantity such as temperature into an electrical signal?", "options": ["Sensor", "Oscillator", "Rectifier", "Transformer"], "answer": 0}, {"q": "In an ideal transformer, if the secondary turns are greater than the primary turns, the secondary voltage is:", "options": ["Higher", "Lower", "Always zero", "Equal regardless of turns"], "answer": 0}, {"q": "Which number system is directly associated with four binary bits?", "options": ["Hexadecimal", "Decimal", "Octal", "Roman"], "answer": 0}, {"q": "A 3-to-8 decoder has how many output lines?", "options": ["8", "3", "6", "24"], "answer": 0}, {"q": "In UART communication, what is commonly used to indicate the beginning of a transmitted character?", "options": ["Start bit", "Stop bit", "Parity bit", "Clock bit"], "answer": 0}, {"q": "Which microcontroller peripheral is most directly used to generate a variable duty-cycle digital waveform?", "options": ["PWM module", "ADC", "UART receiver", "EEPROM"], "answer": 0}, {"q": "If a resistor of 10 Ω carries 2 A, its power dissipation is:", "options": ["40 W", "20 W", "5 W", "0.2 W"], "answer": 0}, {"q": "In a PN junction under reverse bias, the depletion region generally:", "options": ["Widens", "Disappears", "Becomes zero", "Changes into a conductor"], "answer": 0}, {"q": "Which filter ideally passes frequencies below its cutoff frequency and attenuates frequencies above it?", "options": ["Low-pass filter", "High-pass filter", "Band-pass filter", "Band-stop filter"], "answer": 0}, {"q": "A sampling frequency must be at least what relative to the highest frequency component for ideal Nyquist sampling?", "options": ["Twice the highest frequency", "Equal to the highest frequency", "Half the highest frequency", "Four times the lowest frequency"], "answer": 0}];
+let current=0, score=0, selected=null, time=15, interval=null;
+const qEl=document.getElementById('question'), optEl=document.getElementById('options');
+const timerEl=document.getElementById('timer'), counterEl=document.getElementById('counter');
+const fillEl=document.getElementById('fill'), nextEl=document.getElementById('next');
 
-const questions = [
-
-{
-    question: "What does HTML stand for?",
-    options: [
-        "Hyper Text Markup Language",
-        "High Tech Modern Language",
-        "Hyper Transfer Markup Language",
-        "Home Tool Markup Language"
-    ],
-    answer: 0
-},
-
-{
-    question: "Which language is used to style web pages?",
-    options: [
-        "HTML",
-        "CSS",
-        "Java",
-        "Python"
-    ],
-    answer: 1
-},
-
-{
-    question: "Which language is mainly used to make websites interactive?",
-    options: [
-        "CSS",
-        "HTML",
-        "JavaScript",
-        "SQL"
-    ],
-    answer: 2
-},
-
-{
-    question: "Which tag is used to create a hyperlink in HTML?",
-    options: [
-        "<link>",
-        "<a>",
-        "<href>",
-        "<url>"
-    ],
-    answer: 1
-},
-
-{
-    question: "Which symbol is used for an ID selector in CSS?",
-    options: [
-        ".",
-        "#",
-        "@",
-        "*"
-    ],
-    answer: 1
-},
-
-{
-    question: "Which symbol is used for a class selector in CSS?",
-    options: [
-        "#",
-        "@",
-        ".",
-        "$"
-    ],
-    answer: 2
-},
-
-{
-    question: "Which HTML tag is used to display an image?",
-    options: [
-        "<image>",
-        "<img>",
-        "<picture>",
-        "<src>"
-    ],
-    answer: 1
-},
-
-{
-    question: "Which property changes text color in CSS?",
-    options: [
-        "font-color",
-        "text-color",
-        "color",
-        "text-style"
-    ],
-    answer: 2
-},
-
-{
-    question: "Which keyword declares a variable in modern JavaScript?",
-    options: [
-        "variable",
-        "let",
-        "define",
-        "int"
-    ],
-    answer: 1
-},
-
-{
-    question: "Which method is used to print something in the browser console?",
-    options: [
-        "console.log()",
-        "print()",
-        "echo()",
-        "display()"
-    ],
-    answer: 0
-},
-
-{
-    question: "What does CSS stand for?",
-    options: [
-        "Computer Style Sheets",
-        "Creative Style System",
-        "Cascading Style Sheets",
-        "Colorful Style Sheets"
-    ],
-    answer: 2
-},
-
-{
-    question: "Which HTML tag creates the largest heading?",
-    options: [
-        "<h6>",
-        "<heading>",
-        "<h1>",
-        "<head>"
-    ],
-    answer: 2
-},
-
-{
-    question: "Which file extension is commonly used for JavaScript?",
-    options: [
-        ".java",
-        ".js",
-        ".script",
-        ".javascript"
-    ],
-    answer: 1
-},
-
-{
-    question: "Which technology is used to structure a web page?",
-    options: [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "PHP"
-    ],
-    answer: 0
-},
-
-{
-    question: "Which CSS property is used to change the background color?",
-    options: [
-        "color",
-        "background-color",
-        "bg-color",
-        "background-style"
-    ],
-    answer: 1
+function loadQuestion(){
+ clearInterval(interval); time=15; selected=null; nextEl.disabled=true;
+ timerEl.textContent='15s'; timerEl.classList.remove('danger');
+ const item=questions[current];
+ counterEl.textContent=`Question ${current+1} / ${questions.length}`;
+ fillEl.style.width=`${((current+1)/questions.length)*100}%`;
+ qEl.textContent=item.q; optEl.innerHTML='';
+ item.options.forEach((text,i)=>{
+   const b=document.createElement('button'); b.className='option';
+   b.textContent=String.fromCharCode(65+i)+'. '+text;
+   b.onclick=()=>choose(i,b);
+   optEl.appendChild(b);
+ });
+ nextEl.textContent=current===questions.length-1?'Finish Quiz →':'Next Question →';
+ interval=setInterval(()=>{
+   time--; timerEl.textContent=time+'s';
+   if(time<=5) timerEl.classList.add('danger');
+   if(time<=0){ clearInterval(interval); nextQuestion(); }
+ },1000);
 }
-
-];
-
-let currentQuestion = 0;
-let score = 0;
-let timeLeft = 15;
-let timer;
-
-const questionElement = document.getElementById("question");
-const optionsElement = document.getElementById("options");
-const timerElement = document.getElementById("timer");
-const questionNumber = document.getElementById("questionNumber");
-const progressBar = document.getElementById("progressBar");
-
-function loadQuestion() {
-
-    clearInterval(timer);
-
-    timeLeft = 15;
-
-    timerElement.textContent = "15s";
-    timerElement.classList.remove("warning");
-
-    const q = questions[currentQuestion];
-
-    questionElement.textContent = q.question;
-
-    questionNumber.textContent =
-        `Question ${currentQuestion + 1} / ${questions.length}`;
-
-    progressBar.style.width =
-        `${((currentQuestion + 1) / questions.length) * 100}%`;
-
-    optionsElement.innerHTML = "";
-
-    q.options.forEach((option, index) => {
-
-        const button = document.createElement("button");
-
-        button.classList.add("option");
-        button.textContent = option;
-
-        button.onclick = () => selectAnswer(index);
-
-        optionsElement.appendChild(button);
-    });
-
-    startTimer();
+function choose(i,b){
+ if(selected!==null)return;
+ selected=i; nextEl.disabled=false; b.classList.add('selected');
+ document.querySelectorAll('.option').forEach(x=>x.disabled=true);
 }
-
-function startTimer() {
-
-    timer = setInterval(() => {
-
-        timeLeft--;
-
-        timerElement.textContent = timeLeft + "s";
-
-        if (timeLeft <= 5) {
-            timerElement.classList.add("warning");
-        }
-
-        if (timeLeft <= 0) {
-
-            clearInterval(timer);
-
-            selectAnswer(-1);
-        }
-
-    }, 1000);
+function nextQuestion(){
+ clearInterval(interval);
+ if(selected!==null && selected===questions[current].answer) score++;
+ if(current<questions.length-1){current++;loadQuestion();}else showResult();
 }
-
-function selectAnswer(selected) {
-
-    clearInterval(timer);
-
-    const correct = questions[currentQuestion].answer;
-    const buttons = document.querySelectorAll(".option");
-
-    buttons.forEach(button => button.disabled = true);
-
-    if (selected === correct) {
-
-        score++;
-
-        buttons[selected].classList.add("correct");
-
-    } else {
-
-        if (selected >= 0) {
-            buttons[selected].classList.add("wrong");
-        }
-
-        buttons[correct].classList.add("correct");
-    }
-
-    setTimeout(() => {
-
-        currentQuestion++;
-
-        if (currentQuestion < questions.length) {
-            loadQuestion();
-        } else {
-            showResult();
-        }
-
-    }, 700);
+nextEl.onclick=nextQuestion;
+function showResult(){
+ document.getElementById('quiz').style.display='none';
+ document.getElementById('result').style.display='block';
+ document.getElementById('score').textContent=score+' / '+questions.length;
+ const p=score/questions.length*100;
+ document.getElementById('message').textContent=p>=80?'Excellent result.':p>=60?'Good result.':p>=40?'Keep practicing.':'You need more practice.';
 }
-
-function showResult() {
-
-    document.getElementById("quiz").style.display = "none";
-
-    document.getElementById("result").style.display = "block";
-
-    document.getElementById("score").textContent =
-        `${score} / ${questions.length}`;
-
-    const percentage = (score / questions.length) * 100;
-
-    let message;
-
-    if (percentage >= 80) {
-        message = "Excellent! 🔥";
-    } else if (percentage >= 60) {
-        message = "Good job! 👍";
-    } else if (percentage >= 40) {
-        message = "Keep practicing! 💪";
-    } else {
-        message = "Time to study and try again! 📚";
-    }
-
-    document.getElementById("message").textContent = message;
+function restartQuiz(){
+ current=0;score=0;
+ document.getElementById('result').style.display='none';
+ document.getElementById('quiz').style.display='block';
+ loadQuestion();
 }
-
-function restartQuiz() {
-
-    currentQuestion = 0;
-    score = 0;
-
-    document.getElementById("result").style.display = "none";
-    document.getElementById("quiz").style.display = "block";
-
-    loadQuestion();
-}
-
 loadQuestion();
-
 </script>
-
 </body>
 </html>
